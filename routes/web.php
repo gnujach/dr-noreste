@@ -2,6 +2,10 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CasoController;
+use App\Http\Controllers\CctController;
+use App\Http\Controllers\UserController;
+
 use Inertia\Inertia;
 
 /*
@@ -27,3 +31,24 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
+
+Route::middleware('auth:sanctum')->name('admin.')->prefix('admin')->group(function () {
+    // Route::get('/create', [CasoController::class, 'create'])->name('casos/create');
+    Route::get(
+        '/casos/create',
+        [CasoController::class, 'create']
+    )->name('casos/create');
+    Route::get('/casos/', [CasoController::class, 'index'])->name('casos/');
+    Route::post(
+        '/casos',
+        [CasoController::class, 'store']
+    )->name('casos/store');
+    Route::get(
+        '/cct/{cct}/find/',
+        [CctController::class, 'findcct']
+    )->name('casos/create');
+    Route::get('/usuarios/create', [UserController::class, 'create'])->name('usuarios/create');
+    Route::post('/usuarios', [Usercontroller::class, 'store'])->name('usuarios/store');
+    Route::get('/usuarios/', [UserController::class, 'index'])->name('usuarios/');
+    Route::get('/usuarios/{usuario:id}/edit', [Usercontroller::class, 'edit'])->name('usuarios/edit');
+});
