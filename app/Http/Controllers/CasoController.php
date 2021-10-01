@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
+// use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\CasoCollection;
 use Illuminate\Support\Str;
 use App\Models\Caso;
@@ -33,6 +33,34 @@ class CasoController extends Controller
             ]
         );
     }
+
+
+    /**
+     * Display Casos only user->profile->municipio_id
+     */
+
+    public function indexMpio()
+    {
+        // dd(Auth::user()->profile()->id);
+        // dd(request()->user()->municipio->num_municipio);
+        // dd(request()->user()->role);
+        $casos = Caso::whereHas('cct', function ($query) {
+            $query->where('clave_municipio',  request()->user()->municipio->num_municipio);
+        })->with('cct', 'genero', 'rol', 'tipo')->paginate(config('openlink.perpage'));
+        // dd($casos);
+        return Inertia\Inertia::render(
+            'Casos/ListCasos',
+            [
+                'casos' => new CasoCollection($casos),
+                'can'   => [
+                    // 'managerUser' => auth()->user()->can('managerUser')
+                    // 'managerUser' => request()->user()->can('viewAny', User::class)
+                    'managerUser' => true
+                ]
+            ]
+        );
+    }
+
 
     /**
      * Show the form for creating a new resource.

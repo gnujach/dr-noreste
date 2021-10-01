@@ -16,10 +16,7 @@ class Profile extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function municipio()
-    {
-        return $this->belongsTo(Municipio::class);
-    }
+
     public function puesto()
     {
         return $this->belongsTo(Puesto::class);

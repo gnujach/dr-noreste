@@ -38,7 +38,7 @@ Route::middleware('auth:sanctum')->name('admin.')->prefix('admin')->group(functi
         '/casos/create',
         [CasoController::class, 'create']
     )->name('casos/create');
-    Route::get('/casos/', [CasoController::class, 'index'])->name('casos/');
+    Route::get('/casos/', [CasoController::class, 'indexMpio'])->name('casos/');
     Route::post(
         '/casos',
         [CasoController::class, 'store']

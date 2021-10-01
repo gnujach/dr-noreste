@@ -59,10 +59,10 @@ class UserController extends Controller
             'email' => $request->input('email'),
             'role' => $request->input('role'),
             'password' => Hash::make($request['password']),
+            'municipio_id' => $request->input('municipio_id'),
         ]);
         $newUser->profile()->create(
             [
-                'municipio_id' => $request->input('municipio_id'),
                 'puesto_id' => $request->input('puesto_id'),
             ]
         );

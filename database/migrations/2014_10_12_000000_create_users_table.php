@@ -24,6 +24,8 @@ class CreateUsersTable extends Migration
             $table->foreignId('profile_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->string('role');
+            $table->unsignedBigInteger('municipio_id')->nullable(false);
+            $table->foreign('municipio_id')->references('id')->on('municipios');
             $table->timestamps();
         });
     }

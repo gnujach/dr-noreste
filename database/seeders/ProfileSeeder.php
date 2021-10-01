@@ -16,17 +16,14 @@ class ProfileSeeder extends Seeder
     {
         DB::table('profiles')->insert([
             'user_id' => 1,
-            'municipio_id' => 1,
             'puesto_id' => 3,
         ]);
         DB::table('profiles')->insert([
             'user_id' => 2,
-            'municipio_id' => 1,
             'puesto_id' => 4,
         ]);
         DB::table('profiles')->insert([
             'user_id' => 1,
-            'municipio_id' => 1,
             'puesto_id' => 2,
         ]);
     }

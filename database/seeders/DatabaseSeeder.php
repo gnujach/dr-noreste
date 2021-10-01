@@ -23,18 +23,21 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => Hash::make('1234'),
             'role'  => 'Admin',
+            'municipio_id' => 1
         ]);
         $capturista_sji = User::create([
             'name' => 'Capturista SJI',
             'email' => 'sji_captura@example.com',
             'password' => Hash::make('1234'),
             'role'  => 'Capturista',
+            'municipio_id' => 1
         ]);
-        $enlace_sji = User::create([
+        $enlace_slpaz = User::create([
             'name' => 'Enlace SJI',
             'email' => 'sji_enlace@example.com',
             'password' => Hash::make('1234'),
             'role'  => 'Enlace',
+            'municipio_id' => 2
         ]);
         $this->call(DiagnosticoSeeder::class);
         $this->call(GeneroSeeder::class);

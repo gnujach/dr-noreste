@@ -16,9 +16,7 @@ class CreateProfilesTable extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable(false);
-            $table->unsignedBigInteger('municipio_id')->nullable(false);
             $table->unsignedBigInteger('puesto_id')->nullable(false);
-            $table->foreign('municipio_id')->references('id')->on('municipios');
             $table->foreign('puesto_id')->references('id')->on('puestos');
             // $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

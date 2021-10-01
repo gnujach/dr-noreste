@@ -28,7 +28,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'profile_id'
+        'profile_id',
+        'municipio_id',
     ];
 
     /**
@@ -69,5 +70,9 @@ class User extends Authenticatable
     public function profile()
     {
         return $this->hasOne(Profile::class);
+    }
+    public function municipio()
+    {
+        return $this->belongsTo(Municipio::class);
     }
 }
