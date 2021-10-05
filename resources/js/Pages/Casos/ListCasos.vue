@@ -219,6 +219,24 @@
                                             }}
                                         </p>
                                     </td>
+                                    <td class="border-t">
+                                        <Link
+                                            :href="
+                                                route('admin.casos/edit', {
+                                                    caso: caso.data.id,
+                                                })
+                                            "
+                                            ><icon
+                                                name="edit"
+                                                class="
+                                                    block
+                                                    w-8
+                                                    h-8
+                                                    text-gray-400
+                                                "
+                                            />
+                                        </Link>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
@@ -234,14 +252,14 @@
 
 <script>
 import AppLayout from "@/Layouts/AppLayout";
-import JetNavLink from "@/Jetstream/NavLink";
+import { Link } from "@inertiajs/inertia-vue3";
 import Icon from "@/Shared/Icon";
 import Pagination from "@/Shared/Pagination";
 export default {
     components: {
         AppLayout,
         Icon,
-        JetNavLink,
+        Link,
         Pagination,
     },
     props: ["casos"],

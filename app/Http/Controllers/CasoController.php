@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 // use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\CasoCollection;
+use App\Http\Resources\Caso as CasoResource;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Models\Caso;
 use Inertia;
@@ -144,7 +146,15 @@ class CasoController extends Controller
      */
     public function edit(Caso $caso)
     {
-        //
+        $diagnosticos =  DB::select('SELECT id, nombre from diagnosticos');
+        return Inertia\Inertia::render(
+            'Casos/EditCaso',
+            [
+                'caso' => new CasoResource($caso->load('cct', 'tipo', 'genero', 'rol')),
+                'diagnosticos' => $diagnosticos
+                // 'url' => URL::to('/')
+            ]
+        );
     }
 
     /**
@@ -156,7 +166,19 @@ class CasoController extends Controller
      */
     public function update(Request $request, Caso $caso)
     {
-        //
+        Validator::make($request->all(), [
+            'observaciones_enlace' => ['nullable', 'string', 'max:255'],
+            'has_dictamen' => ['nullable', 'boolean'],
+            'diagnostico_id' => ['nullable', Rule::exists('diagnosticos', 'id')],
+        ])->validate();
+        $caso->update([
+            'observaciones_enlace' => $request->input('observaciones_enlace'),
+            'has_dictamen' => $request->input('has_dictamen'),
+            'diagnostico_id' => $request->input('diagnostico_id'),
+        ]);
+        request()->session()->flash('flash.banner', 'Registro Actualizado');
+        request()->session()->flash('flash.bannerStyle', 'success');
+        return Redirect::back()->with('success', 'Caso actualizado.');
     }
 
     /**
