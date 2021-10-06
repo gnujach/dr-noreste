@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use App\Exports\CasoIdExport;
+use Maatwebsite\Excel\Facades\Excel;
 // use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\CasoCollection;
 use App\Http\Resources\Caso as CasoResource;
@@ -209,5 +211,12 @@ class CasoController extends Controller
     public function destroy(Caso $caso)
     {
         //
+    }
+
+    /**
+     * Export to excel */
+    public function export()
+    {
+        return Excel::download(new CasoIdExport(request()->user()->municipio->num_municipio), 'casos.xlsx');
     }
 }

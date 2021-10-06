@@ -10,10 +10,21 @@
             <div class="max-w-full mx-auto sm:px-6 lg:px-8">
                 <div class="bg-red-300 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
-                        <div class="mt-8 flex flex-row m-2">
+                        <div class="mt-8 flex flex-row m-2 justify-between">
                             <p class="text-2xl ml-4 w-1/2">
                                 Casos activos en el sistema
                             </p>
+                            <div>
+                                <a
+                                    href="/admin/casos/export/"
+                                    class="flex text-lg"
+                                >
+                                    <p class="mx-2">Generar reporte excel</p>
+                                    <icon
+                                        class="w-6 h-6 text-gray-400"
+                                        name="save"
+                                /></a>
+                            </div>
                         </div>
                         <div
                             class="

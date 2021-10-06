@@ -50,6 +50,8 @@ Route::middleware('auth:sanctum')->name('admin.')->prefix('admin')->group(functi
         '/cct/{cct}/find/',
         [CctController::class, 'findcct']
     )->name('casos/create');
+    Route::get('casos/export/',  [CasoController::class, 'export'])->name('casos/export');
+
     Route::get('/usuarios/create', [UserController::class, 'create'])->name('usuarios/create');
     Route::post('/usuarios', [Usercontroller::class, 'store'])->name('usuarios/store');
     Route::get('/usuarios/', [UserController::class, 'index'])->name('usuarios/');
