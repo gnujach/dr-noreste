@@ -12,7 +12,7 @@ class Caso extends Model
     use HasUuid;
     protected $fillable = [
         'uuid', 'cct_id', 'user_id', 'rol_id', 'tipo_id', 'diagnostico_id', 'genero_id', 'nombre_pila', 'ap1', 'ap2', 'tel_contacto', 'tel_escuela', 'has_prueba',
-        'nombre_reporta', 'observaciones_reporta', 'observaciones_enlace', 'has_dictamen', 'enlace_id', 'fecha_regreso',
+        'nombre_reporta', 'observaciones_reporta', 'observaciones_enlace', 'has_dictamen', 'is_atendido', 'enlace_id', 'fecha_regreso',
     ];
     public function user()
     {

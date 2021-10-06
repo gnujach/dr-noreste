@@ -47,7 +47,7 @@ class CasoController extends Controller
         // dd(request()->user()->municipio->num_municipio);
         // dd(request()->user()->role);
         $casos = Caso::whereHas('cct', function ($query) {
-            $query->where('clave_municipio',  request()->user()->municipio->num_municipio);
+            $query->where(['clave_municipio' =>  request()->user()->municipio->num_municipio, 'is_atendido' => false]);
         })->with('cct', 'genero', 'rol', 'tipo')->paginate(config('openlink.perpage'));
         // dd($casos);
         return Inertia\Inertia::render(
@@ -147,14 +147,20 @@ class CasoController extends Controller
     public function edit(Caso $caso)
     {
         $diagnosticos =  DB::select('SELECT id, nombre from diagnosticos');
-        return Inertia\Inertia::render(
-            'Casos/EditCaso',
-            [
-                'caso' => new CasoResource($caso->load('cct', 'tipo', 'genero', 'rol')),
-                'diagnosticos' => $diagnosticos
-                // 'url' => URL::to('/')
-            ]
-        );
+        if ($caso->cct->clave_municipio == request()->user()->municipio->num_municipio) {
+            return Inertia\Inertia::render(
+                'Casos/EditCaso',
+                [
+                    'caso' => new CasoResource($caso->load('cct', 'tipo', 'genero', 'rol')),
+                    'diagnosticos' => $diagnosticos
+                    // 'url' => URL::to('/')
+                ]
+            );
+        } else {
+            request()->session()->flash('flash.banner', "Solicitud no permitida, consulte con administrador");
+            request()->session()->flash('flash.bannerStyle', 'danger');
+            return Redirect::back()->with('success', request()->user()->municipio_id);
+        }
     }
 
     /**
@@ -179,6 +185,19 @@ class CasoController extends Controller
         request()->session()->flash('flash.banner', 'Registro Actualizado');
         request()->session()->flash('flash.bannerStyle', 'success');
         return Redirect::back()->with('success', 'Caso actualizado.');
+    }
+
+    /**
+     * Cerrar caso
+     */
+    public function closeCaso(Request $request, Caso $caso)
+    {
+        $caso->update(['is_atendido' => request()->input('is_atendido')]);
+        request()->session()->flash('flash.banner', 'Registro Cerrado');
+        request()->session()->flash('flash.bannerStyle', 'success');
+        // return response()->json("Actualizado");
+        return Redirect::route('admin.casos/')->with('success', 'Registro Cerrado!!');
+        // return redirect(route('admin.casos/')->with('success', 'Registro Cerrado!!'), 303);
     }
 
     /**

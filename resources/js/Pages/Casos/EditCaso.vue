@@ -89,11 +89,34 @@
                     <jet-secondary-button
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
+                        @click="showModal = !showModal"
                     >
                         Cerrar
                     </jet-secondary-button>
                 </template>
             </jet-form-section>
+            <jet-dialog-modal :show="showModal" @close="closeModal">
+                <template #title> Cerrar caso </template>
+
+                <template #content>
+                    ¿Desea cerrar este caso, ya no podrá realizar cambios?
+                </template>
+
+                <template #footer>
+                    <jet-secondary-button @click="closeModal">
+                        Cancelar
+                    </jet-secondary-button>
+
+                    <jet-button
+                        class="ml-2"
+                        @click="confirmClose"
+                        :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing"
+                    >
+                        Guardar
+                    </jet-button>
+                </template>
+            </jet-dialog-modal>
         </div>
     </app-layout>
 </template>
@@ -114,6 +137,8 @@ import JetTextArea from "@/Jetstream/TextArea";
 import JetCheckbox from "@/Jetstream/Checkbox";
 import VueMultiselect from "vue-multiselect";
 import DisplayCaso from "@/Components/DisplayCaso";
+import JetDialogModal from "@/Jetstream/DialogModal.vue";
+
 export default {
     props: ["caso", "diagnosticos"],
     components: {
@@ -132,6 +157,7 @@ export default {
         JetCheckbox,
         VueMultiselect,
         DisplayCaso,
+        JetDialogModal,
     },
     data() {
         return {
@@ -142,6 +168,7 @@ export default {
                     this.caso.data.attributes.observaciones_enlace,
             }),
             SelectedDiagnostico: undefined,
+            showModal: false,
         };
     },
     mounted() {
@@ -165,6 +192,34 @@ export default {
             this.SelectedDiagnostico = this.diagnosticos.find(
                 (element) => element.id === this.form.diagnostico_id
             );
+        },
+        confirmClose() {
+            console.log(route("admin.casos/cerrarcaso", this.caso.data.id));
+            this.form.processing = true;
+            this.$inertia.patch(
+                route("admin.casos/cerrarcaso", this.caso.data.id),
+                {
+                    is_atendido: true,
+                }
+            );
+
+            // axios;
+            //     .patch(route("admin.casos/cerrarcaso", this.caso.data.id), {
+            //         is_atendido: true,
+            //     })
+            //     .then(() => {
+            //         this.form.processing = false;
+            //         this.closeModal();
+            //         this.$nextTick(() => this.$emit("confirmed"));
+            //     })
+            //     .catch((error) => {
+            //         this.form.processing = false;
+            //         console.log(error);
+            //     })
+        },
+        closeModal() {
+            this.showModal = false;
+            this.form.error = "";
         },
     },
 };

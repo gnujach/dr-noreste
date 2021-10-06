@@ -1439,12 +1439,6 @@ select {
 .justify-between {
 	justify-content: space-between;
 }
-.justify-around {
-	justify-content: space-around;
-}
-.justify-evenly {
-	justify-content: space-evenly;
-}
 .justify-items-start {
 	justify-items: start;
 }
@@ -2075,10 +2069,6 @@ select {
 .hover\:text-gray-900:hover {
 	--tw-text-opacity: 1;
 	color: rgba(17, 24, 39, var(--tw-text-opacity));
-}
-.hover\:text-indigo-500:hover {
-	--tw-text-opacity: 1;
-	color: rgba(99, 102, 241, var(--tw-text-opacity));
 }
 .focus\:z-10:focus {
 	z-index: 10;
