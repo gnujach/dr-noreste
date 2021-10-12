@@ -33,8 +33,8 @@ class CreateCasosTable extends Migration
             $table->boolean('is_atendido')->default(false);
             $table->unsignedBigInteger('enlace_id')->nullable(true);
             $table->date('fecha_regreso')->nullable(true);
-            $table->string('observaciones_reporta', 64)->nullable(false);
-            $table->string('observaciones_enlace', 64)->nullable(true);
+            $table->string('observaciones_reporta', 255)->nullable(true);
+            $table->string('observaciones_enlace', 255)->nullable(true);
             $table->foreign('cct_id')->references('id')->on('ccts');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('rol_id')->references('id')->on('rols');

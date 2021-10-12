@@ -45,9 +45,7 @@ class CasoController extends Controller
 
     public function indexMpio()
     {
-        // dd(Auth::user()->profile()->id);
-        // dd(request()->user()->municipio->num_municipio);
-        // dd(request()->user()->role);
+        $this->authorize('viewAny', Caso::class);
         $casos = Caso::whereHas('cct', function ($query) {
             $query->where(['clave_municipio' =>  request()->user()->municipio->num_municipio, 'is_atendido' => false]);
         })->with('cct', 'genero', 'rol', 'tipo')->paginate(config('openlink.perpage'));
@@ -59,7 +57,7 @@ class CasoController extends Controller
                 'can'   => [
                     // 'managerUser' => auth()->user()->can('managerUser')
                     // 'managerUser' => request()->user()->can('viewAny', User::class)
-                    'managerUser' => true
+                    'viewCasos' => request()->user()->can('viewAny', Caso::class)
                 ]
             ]
         );
@@ -104,7 +102,7 @@ class CasoController extends Controller
                 'tel_contacto' => ['required', 'max:10', 'min:10'],
                 'tel_escuela' => ['required', 'max:10', 'min:10'],
                 'nombre_reporta' => ['required', 'max:50'],
-                'observaciones_reporta' => ['required', 'max:250'],
+                'observaciones_reporta' => ['nullable', 'max:250'],
             ]
         );
 
