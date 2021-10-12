@@ -36293,7 +36293,7 @@ __webpack_require__.r(__webpack_exports__);
       SelectedPuesto: undefined,
       SelectedMunicipio: undefined,
       roles: [{
-        id: "capturista",
+        id: "Capturista",
         nombre: "Capturista"
       }, {
         id: "Enlace",
